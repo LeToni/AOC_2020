@@ -14,16 +14,33 @@ namespace Day1
 
         public void Calculate(int[] input, int limit)
         {
+            bool foundTriple = false;
+
             for(int i = 0; i < input.Length; i++)
             {
                 for(int j = i + 1; j < input.Length; j++)
                 {
+                    if(input[i] + input[j] >= limit)
+                    {
+                        break;
+                    }
+                    
                     for(int k = j + 1; k < input.Length; k++)
                     {
-                        if(input[i] + input[j] + input[k]== limit)
-                    {
-                        threeTuple.Add( new Tuple<int, int, int>(input[i], input[j], input[k]));
+                        if(input[i] + input[j] + input[k] == limit)
+                        {
+                            threeTuple.Add( new Tuple<int, int, int>(input[i], input[j], input[k]));
+                            foundTriple = true;
+                            break;
+                        }
+                        if(input[i] + input[j] + input[k] > limit)
+                        {
+                            break;
+                        }
                     }
+                    if(foundTriple){
+                        foundTriple = false;
+                        break;
                     }
                 }
             }

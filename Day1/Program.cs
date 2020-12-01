@@ -21,12 +21,14 @@ namespace Day1
             var report_extended = new ExtendedExpenseReport();
             report_extended.Calculate(processedInput, expenseLimit);
             report_extended.DisplayStatistics();
+
         }
 
         private static int[] ProcessFile(string path)
         {
             return File.ReadAllLines(path)
-                    .Select( n => Int32.Parse(n)).ToArray<int>();
+                    .OrderBy(n => Int32.Parse(n))
+                    .Select(n => Int32.Parse(n)).ToArray<int>();
         }
     } 
 }

@@ -21,6 +21,11 @@ namespace Day1
                     if(input[i] + input[j] == limit)
                     {
                         twoTuple.Add( new Tuple<int, int>(input[i], input[j]));
+                        break;
+                    }
+                    if(input[i] + input[j] > limit)
+                    {
+                        break;
                     }
                 }
             }
