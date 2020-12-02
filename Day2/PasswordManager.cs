@@ -1,29 +1,38 @@
+using System;
 using System.Collections.Generic;
 
 namespace Day2
 {
     public class PasswordManager
     {
-        List<PasswordPolicy> PasswordPolicies;
+        public List<PasswordPolicy> PasswordPolicies;
 
         public PasswordManager()
         {
             PasswordPolicies = new List<PasswordPolicy>();
         }
 
-        public void AddPolicy(int min, int max, char letter, string password)
+        public void AddPolicy(string min, string max, string letter, string password)
         {
-            var newPolicy = new PasswordPolicy { MinRule = min, MaxRule = max, Letter = letter, Password = password };
+            int minimum = Int32.Parse(min);
+            int maximum = Int32.Parse(max);
+            var newPolicy = new PasswordPolicy { FirstRule = minimum, SecondRule = maximum, Letter = Convert.ToChar(letter), Password = password };
 
             if(newPolicy.IsValidPolicy()){
                 PasswordPolicies.Add(newPolicy);
             }
         }
 
-        public void AddPolicy(PasswordPolicy passwordPolicy) 
+        public void AddNewPolicy(string pos1, string pos2, string letter, string password)
         {
-            PasswordPolicies.Add(passwordPolicy);
-        }
+            int minimum = Int32.Parse(pos1);
+            int maximum = Int32.Parse(pos2);
+            var newPolicy = new PasswordPolicy { FirstRule = minimum, SecondRule = maximum, Letter = Convert.ToChar(letter), Password = password };
 
+            if (newPolicy.IsValidNewPolicy())
+            {
+                PasswordPolicies.Add(newPolicy);
+            }
+        }
     }
 }

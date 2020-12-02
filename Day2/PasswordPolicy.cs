@@ -2,8 +2,8 @@ namespace Day2
 {
     public class PasswordPolicy
     {
-        public int MinRule { get; set; }
-        public int MaxRule { get; set; }
+        public int FirstRule { get; set; }
+        public int SecondRule { get; set; }
         public char Letter { get; set; }
         public string Password { get; set; }
 
@@ -17,7 +17,7 @@ namespace Day2
                     count++;
                 }
             }
-            if(count >= MinRule && count <= MaxRule)
+            if(count >= FirstRule && count <= SecondRule)
             {
                 return true;
             }
@@ -26,6 +26,18 @@ namespace Day2
                 return false;
             }
             
+        }
+
+        public bool IsValidNewPolicy()
+        {
+            if(Password[FirstRule-1] == Letter ^ Password[SecondRule-1] == Letter)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
