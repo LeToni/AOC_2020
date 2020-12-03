@@ -7,7 +7,7 @@
 
 ## Advent of Code 2 Go
 (Solution written in Go)
-[=>](https://github.com/LeToni/AdventOfCode2Go/)
+[=>](https://github.com/LeToni/AdventOfCode2Go)
 
 ## Solution
 [Day 1](https://github.com/LeToni/AdventOfCode/tree/master/Day1)\
