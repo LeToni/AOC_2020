@@ -17,11 +17,11 @@ namespace Day3
             Console.WriteLine("Part 1: ");
             Console.WriteLine($"Encountered trees on the way: {treesOnPath}");
 
-            var treesOnPath2 = EncounteredTreesOnPath(map, 1, 3)
-                * EncounteredTreesOnPath(map, 3, 1)
-                * EncounteredTreesOnPath(map, 5, 1)
-                * EncounteredTreesOnPath(map, 7, 1)
-                * EncounteredTreesOnPath(map, 1, 2);
+            var treesOnPath2 = EncounteredTreesOnPath(map, 1,1)
+                * EncounteredTreesOnPath(map, 1, 3)
+                * EncounteredTreesOnPath(map, 1, 5)
+                * EncounteredTreesOnPath(map, 1, 7)
+                * EncounteredTreesOnPath(map, 2, 1);
             Console.WriteLine("Part 2: ");
             Console.WriteLine($"Product of encounter trees: {treesOnPath2}");
         }
@@ -31,9 +31,9 @@ namespace Day3
             return File.ReadAllLines(file);
         }
 
-        public static int EncounteredTreesOnPath(string[] map, int downY, int rightX)
+        public static long EncounteredTreesOnPath(string[] map, int downY, int rightX)
         {
-            int trees = 0;
+            var trees = 0;
             int posX = 0;
 
             for(int posY = downY; posY < map.Length; posY = posY + downY)
