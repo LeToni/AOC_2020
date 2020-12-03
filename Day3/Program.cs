@@ -9,21 +9,31 @@ namespace Day3
         static void Main(string[] args)
         {
             var file = "./Map.txt";
-
             var map = ProcessInput(file);
 
-            var treesOnPath = EncounteredTreesOnPath(map, 1, 3);
+            var treesOnPath = EncounteredTreesOnSlope(map, 3, 1);
 
             Console.WriteLine("Part 1: ");
             Console.WriteLine($"Encountered trees on the way: {treesOnPath}");
 
-            var treesOnPath2 = EncounteredTreesOnPath(map, 1,1)
-                * EncounteredTreesOnPath(map, 1, 3)
-                * EncounteredTreesOnPath(map, 1, 5)
-                * EncounteredTreesOnPath(map, 1, 7)
-                * EncounteredTreesOnPath(map, 2, 1);
+
+            List<Tuple<int, int>> slopes = new List<Tuple<int, int>>()
+            {
+                new Tuple<int, int>(1,1),
+                new Tuple<int, int>(3,1),
+                new Tuple<int, int>(5,1),
+                new Tuple<int, int>(7,1),
+                new Tuple<int, int>(1,2),
+            };
+
+            long treeProduct = 1;
+            foreach(var slope in slopes)
+            {
+                treeProduct = treeProduct * EncounteredTreesOnSlope(map, slope.Item1, slope.Item2);
+            }
+
             Console.WriteLine("Part 2: ");
-            Console.WriteLine($"Product of encounter trees: {treesOnPath2}");
+            Console.WriteLine($"Product of encountered trees: {treeProduct}");
         }
 
         private static string[] ProcessInput(string file)
@@ -31,15 +41,15 @@ namespace Day3
             return File.ReadAllLines(file);
         }
 
-        public static long EncounteredTreesOnPath(string[] map, int downY, int rightX)
+        public static long EncounteredTreesOnSlope(string[] map, int slopeX, int downY)
         {
             var trees = 0;
-            int posX = 0;
+            var posX = 0;
 
             for(int posY = downY; posY < map.Length; posY = posY + downY)
             {
                 var area = map[posY];
-                posX = posX + rightX;
+                posX = posX + slopeX;
 
                 if(posX > area.Length - 1)
                 {
