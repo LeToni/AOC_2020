@@ -9,96 +9,49 @@ namespace Day5
     {
         static void Main(string[] args)
         {
-            var path = "Input.txt";
-            var boardingCodes = ProcessInput(path);
+            var file = "Input.txt";
+            var codes = ProcessInput(file);
 
-            Dictionary<int, bool> SeatIds = new Dictionary<int, bool>();
-            for(int i = 0; i <= 127; i++)
+            var seatIds = codes.Select(ConvertToBinary)
+                                .Select(CalculateSeatId)
+                                .OrderBy(s => s);
+            var maxSeatId = seatIds.Max();
+            Console.WriteLine($"Highest seatId on the list: {maxSeatId}");
+
+            var minSeatId = seatIds.Min();
+            var numberOfSeats = maxSeatId - minSeatId;
+
+            var possibleSeats = Enumerable.Range(minSeatId, maxSeatId - minSeatId)
+                                .Except(seatIds);
+
+            Console.WriteLine($"Possible seat of yours might be following:");
+            foreach (var seat in possibleSeats)
             {
-                for(int j= 0; j <= 7; j++)
-                {
-                    var SeatId = i * 8 + j;
-                    SeatIds.Add(SeatId, true);
-                }
+                Console.WriteLine(seat);
             }
-
-            var max = int.MinValue;
-            foreach (var boardingCode in boardingCodes)
-            {
-                var row = CalculateRow(boardingCode.Substring(0, 7));
-                var col = CalculateCol(boardingCode.Substring(7, 3));
-
-                var seatID = row * 8 + col;
-                SeatIds.Remove(seatID);
-                max = Math.Max(max, seatID);
-            }
-
-            Console.WriteLine($"Highest SeatID found: {max}");
-
-            foreach(var seatId in SeatIds.Keys.ToList())
-            {
-                bool eval1 = false;
-                bool eval2 = false;
-                if(SeatIds.TryGetValue(seatId-1, out eval1) && SeatIds.TryGetValue(seatId + 1, out eval2))
-                {
-                    SeatIds[seatId - 1] = false;
-                    SeatIds[seatId] = false;
-                    SeatIds[seatId + 1] = false;
-                }
-            }
-
-            foreach (var seatId in SeatIds.Keys.ToList())
-            {
-                if(SeatIds[seatId] == false)
-                {
-                    SeatIds.Remove(seatId);
-                }
-            }
-
-            foreach (var seatId in SeatIds.Keys.ToList())
-            {
-                Console.WriteLine($"Your seat should be: {seatId}");
-            }
+            
         }
 
-        private static List<string> ProcessInput(string file)
+        private static List<string> ProcessInput(string path)
         {
-            var input = File.ReadAllLines(file).ToList();
-
-            return input;
+            return File.ReadAllLines(path).ToList();
         }
 
-        private static int CalculateRow(string rowCode, int l = 0, int h = 127)
+        private static string ConvertToBinary(string code)
         {
-            foreach(var letter in rowCode)
-            {
-                Partition(letter, ref h, ref l);
-            }
-
-            return Math.Min(l, h);
+            return code.Replace('F', '0')
+                .Replace('B', '1')
+                .Replace('L', '0')
+                .Replace('R', '1');
         }
 
-        private static int CalculateCol(string colCode, int l = 0, int h = 7)
+        private static int CalculateSeatId(string code)
         {
-            foreach (var letter in colCode)
-            {
-                Partition(letter, ref h, ref l);
-            }
+            var row = Convert.ToInt32(code.Substring(0,code.Length-3),2);
+            var col = Convert.ToInt32(code.Substring(code.Length-3),2);
 
-            return Math.Min(l, h);
+            return row*8+col;
         }
-
-        private static void Partition(char letter, ref int higher, ref int lower)
-        {
-            var half = (higher + lower + 1) / 2;
-            if (letter == 'F' || letter == 'L')
-            {
-                higher = half - 1;
-            }
-            else
-            {
-                lower = half;
-            }
-         }
     }
+
 }
