@@ -19,7 +19,6 @@ namespace Day5
             Console.WriteLine($"Highest seatId on the list: {maxSeatId}");
 
             var minSeatId = seatIds.Min();
-            var numberOfSeats = maxSeatId - minSeatId;
 
             var possibleSeats = Enumerable.Range(minSeatId, maxSeatId - minSeatId)
                                 .Except(seatIds);
