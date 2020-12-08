@@ -22,6 +22,44 @@ namespace Day08
             Console.WriteLine($"Value in the accumulator for first rum: {dryRun}");
         }
 
+        public static void Run (ref List<Instruction> instructions)
+        {
+            Dictionary<int, string> memory = new Dictionary<int, string>();
+
+            for(int i = 0; i < instructions.Count; i++)
+            {
+                if(instructions[i].Operation == ACC || instructions[i].Operation == JMP)
+                {
+                    memory.Add(i, instructions[i].Operation);
+                }
+            }
+        }
+
+        public static bool HasInfiniteLoop(ref List<Instruction> instructions, int ithOperation)
+        {
+            if(instructions[ithOperation].Operation == JMP)
+            {
+                return InstructionVisited[ithOperation];
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        public static string InvertOperation(string operation)
+        {
+            switch (operation)
+            {
+                case ACC:
+                    return JMP;
+                case JMP:
+                    return NOP;
+                default:
+                    return operation;
+            }
+        }
+
         public static int DryRun(ref List<Instruction> instructions)
         {
             int accumulator = 0;
