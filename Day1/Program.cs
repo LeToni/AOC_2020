@@ -10,7 +10,7 @@ namespace Day1
 
         static void Main(string[] args)
         {
-            var filePath = "./PuzzleInput.txt";
+            var filePath = "PuzzleInput.txt";
             var processedInput = ProcessFile(filePath);
 
 
