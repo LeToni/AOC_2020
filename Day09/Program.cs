@@ -11,8 +11,37 @@ namespace Day09
             string file = "Input.txt";
             long[] numbers = ProcessInput(file);
 
-            var result = Filter(numbers, 25);
-            Console.WriteLine(result);
+            var invalidNumber = Filter(numbers, 25);
+            Console.WriteLine($"First number that does not have property: {invalidNumber}");
+
+            var sum = FilterForInvalidNumber(numbers, invalidNumber);
+            Console.WriteLine($"Encrypten weakness in list of numbers: {sum}");
+        }
+
+        public static long FilterForInvalidNumber(long[] numbers, long invalidNumber)
+        {
+            int min = 0;
+            int max = 1;
+
+            while(max < numbers.Count())
+            {
+                var sum = numbers[min..max].Sum();
+
+                if(sum == invalidNumber)
+                {
+                    return numbers[min..max].Min() + numbers[min..max].Max();
+                }
+
+                if(sum < invalidNumber)
+                {
+                    max = max + 1;
+                }
+                else
+                {
+                    min = min + 1;
+                }
+            }
+            return 0;
         }
 
         public static long Filter(long[] numbers, int intervalSize)
