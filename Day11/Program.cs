@@ -224,65 +224,34 @@ namespace Day11
 
         public static bool IsImmediateAdjacentSeat(Seat seatNeighbor, Seat seat)
         {
-            // UP
-            if (seatNeighbor.PosRow == seat.PosRow + 1 && seatNeighbor.PosCol == seat.PosCol)
-                return true;
-            // DOWN
-            if (seatNeighbor.PosRow == seat.PosRow - 1 && seatNeighbor.PosCol == seat.PosCol)
-                return true;
-            // RIGHT
-            if (seatNeighbor.PosRow == seat.PosRow && seatNeighbor.PosCol == seat.PosCol + 1)
-                return true;
-            // LEFT
-            if (seatNeighbor.PosRow == seat.PosRow && seatNeighbor.PosCol == seat.PosCol - 1)
-                return true;
-            // UP RIGHT
-            if (seatNeighbor.PosRow  == seat.PosRow + 1  && seatNeighbor.PosCol == seat.PosCol + 1)
-                return true;
-            // UP LEFT
-            if (seatNeighbor.PosRow  == seat.PosRow + 1 && seatNeighbor.PosCol  == seat.PosCol - 1)
-                return true;
-            // DOWN RIGHT
-            if (seatNeighbor.PosRow  == seat.PosRow - 1 && seatNeighbor.PosCol  == seat.PosCol + 1)
-                return true;
-            // DOWN LEF
-            if (seatNeighbor.PosRow == seat.PosRow - 1 && seatNeighbor.PosCol == seat.PosCol - 1)
-                return true;
-
-            return false;
+            if(seatNeighbor.PosRow == seat.PosRow || seatNeighbor.PosCol == seat.PosCol)
+            {
+                return Math.Abs(seatNeighbor.PosRow - seat.PosRow) + Math.Abs(seatNeighbor.PosCol - seat.PosCol) == 1;
+            }
+            else
+            {
+                var distanceRow = Math.Abs(seatNeighbor.PosRow - seat.PosRow);
+                var distanceCol = Math.Abs(seatNeighbor.PosCol - seat.PosCol);
+                return distanceRow == 1
+                        && distanceCol == 1
+                        && distanceCol == distanceRow;
+            }
         }
 
         public static bool IsWithinDistance(Seat seatNeighbor, Seat seat)
         {
-            for(int i = 1; i <= 8; i++)
+            if (seatNeighbor.PosRow == seat.PosRow || seatNeighbor.PosCol == seat.PosCol)
             {
-                // UP
-                if (seatNeighbor.PosRow == seat.PosRow + i && seatNeighbor.PosCol == seat.PosCol)
-                    return true;
-                // DOWN
-                if (seatNeighbor.PosRow == seat.PosRow - i && seatNeighbor.PosCol == seat.PosCol)
-                    return true;
-                // RIGHT
-                if (seatNeighbor.PosRow == seat.PosRow && seatNeighbor.PosCol == seat.PosCol + i)
-                    return true;
-                // LEFT
-                if (seatNeighbor.PosRow == seat.PosRow && seatNeighbor.PosCol == seat.PosCol - i)
-                    return true;
-                // UP RIGHT
-                if (seatNeighbor.PosRow == seat.PosRow + i && seatNeighbor.PosCol == seat.PosCol + i)
-                    return true;
-                // UP LEFT
-                if (seatNeighbor.PosRow == seat.PosRow + i && seatNeighbor.PosCol == seat.PosCol - i)
-                    return true;
-                // DOWN RIGHT
-                if (seatNeighbor.PosRow == seat.PosRow - i && seatNeighbor.PosCol == seat.PosCol + i)
-                    return true;
-                // DOWN LEF
-                if (seatNeighbor.PosRow == seat.PosRow - i && seatNeighbor.PosCol == seat.PosCol - i)
-                    return true;
+                return Math.Abs(seatNeighbor.PosRow - seat.PosRow) + Math.Abs(seatNeighbor.PosCol - seat.PosCol) <= 8;
             }
-
-            return false;
+            else
+            {
+                var distanceRow = Math.Abs(seatNeighbor.PosRow - seat.PosRow);
+                var distanceCol = Math.Abs(seatNeighbor.PosCol - seat.PosCol);
+                return distanceRow <= 8
+                        && distanceCol <= 8
+                        && distanceCol == distanceRow;
+            }
         }
 
         public static int CountOccupiedSeats(List<Seat> seats)
